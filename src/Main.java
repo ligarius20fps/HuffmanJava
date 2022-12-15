@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+    private static Pair[] quickSort(Pair[] arr){
+        //TODO
+        return null;
+    }
     public static void main(String[] args)
     {
         if(args.length == 0)
@@ -38,7 +42,6 @@ public class Main {
         }
         System.out.println("hello");
 
-        //można by rozwinąć o kolejne n bajtów
         //zbudować drzewo
         //z drzewa w ciąg bitów
         //zapisać w postaci skompresowanej
