@@ -5,9 +5,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+    private static Pair[] quickSort(Pair[] arr, int left, int right)
+    {
+        int i = left, j = right;
+        int pivot = arr[(left + right) / 2].v();
+        Pair temp;
+        while(i < j)
+        {
+            while(arr[i].v() > pivot)i++;
+            while(arr[j].v() < pivot)j--;
+            if(i<=j)
+            {
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                i++;
+                j--;
+            }
+        }
+        if(left < j) arr = quickSort(arr, left, j);
+        if(i < right) arr = quickSort(arr, i, right);
+        return arr;
+    }
     private static Pair[] quickSort(Pair[] arr){
-        //TODO
-        return null;
+        return quickSort(arr, 0, arr.length - 1);
     }
     public static void main(String[] args)
     {
@@ -40,6 +61,7 @@ public class Main {
                 int value = map.get(key);
                 tempArr[i++] = new Pair(key,value);
             }
+            tempArr = quickSort(tempArr);
             System.out.println("good");
         } catch (FileNotFoundException e) {
             System.out.println("Could not find file: " + strFile);
