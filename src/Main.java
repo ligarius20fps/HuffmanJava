@@ -34,6 +34,12 @@ public class Main {
                     map.put(c,1);
                 }
             }
+            Pair[] tempArr = new Pair[map.size()];
+            int i = 0;
+            for(int key:map.keySet()){
+                int value = map.get(key);
+                tempArr[i++] = new Pair(key,value);
+            }
             System.out.println("good");
         } catch (FileNotFoundException e) {
             System.out.println("Could not find file: " + strFile);
