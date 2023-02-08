@@ -74,15 +74,21 @@ public class Main {
         }
         treeList = quickSort(treeList);
         //zbudować drzewo
-        Tree first = treeList.pop();
-        Tree second = treeList.pop();
-        Node node = new Node(first.node, second.node);
-        Tree newTree = new Tree(node, first, second);
-        int i = 0;
-        while(treeList.get(i).node.getWeight() < newTree.node.getWeight()) i++;
-        treeList.add(i, newTree);
-        System.out.println("good");
+        while(treeList.size() > 1)
+        {
+            Tree first = treeList.pop();
+            Tree second = treeList.pop();
+            Node node = new Node(first.node, second.node);
+            Tree newTree = new Tree(node, first, second);
+            int i = 0;
+            while(i < treeList.size() &&
+                    treeList.get(i).node.getWeight() < newTree.node.getWeight()){
+                i++;
+            }
+            treeList.add(i, newTree);
+        }
         //z drzewa w ciąg bitów
+        System.out.println("good");
         //zapisać w postaci skompresowanej
     }
 }
