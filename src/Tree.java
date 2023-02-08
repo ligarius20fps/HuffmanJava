@@ -8,4 +8,9 @@ public class Tree {
         this.left = null;
         this.right = null;
     }
+    public Tree(Node node, Tree left, Tree right) {
+        this.node = node;
+        this.left = left;
+        this.right = right;
+    }
 }

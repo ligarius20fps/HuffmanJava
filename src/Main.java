@@ -40,39 +40,48 @@ public class Main {
             System.out.println("Please provide a file name");
             exit(1);
         }
-        String strFile = args[0];
-        Map<Integer, Integer> map = new HashMap<>();
-        //odczytać plik
-        try (FileInputStream in = new FileInputStream(strFile)) {
-            int c;
-            //key: byte
-            //value: number of same bytes
-            while ((c = in.read()) != -1) {
-                //policzyć liczbę poszczególnych bajtów
-                if (map.containsKey(c)) {
-                    int numberOfOccurences = map.get(c);
-                    map.put(c, ++numberOfOccurences);
-                } else {
-                    map.put(c, 1);
+        LinkedList<Tree> treeList = new LinkedList<>();
+        {
+            Map<Integer, Integer> map = new HashMap<>();
+            {
+                String strFile = args[0];
+                //odczytać plik
+                try (FileInputStream in = new FileInputStream(strFile)) {
+                    int c;
+                    //key: byte
+                    //value: number of same bytes
+                    while ((c = in.read()) != -1) {
+                        //policzyć liczbę poszczególnych bajtów
+                        if (map.containsKey(c)) {
+                            int numberOfOccurences = map.get(c);
+                            map.put(c, ++numberOfOccurences);
+                        } else {
+                            map.put(c, 1);
+                        }
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("Could not find file: " + strFile);
+                    exit(1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
+            for (int key : map.keySet()) { // kluczem jest bajt
+                int value = map.get(key); //wartością jest waga
+                Node node = new Node(key, value);
+                treeList.add(new Tree(node));
+            }
         }
-        catch (FileNotFoundException e) {
-            System.out.println("Could not find file: " + strFile);
-            exit(1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        LinkedList<Tree> tempTree = new LinkedList<>();
-        for(int key:map.keySet()){ // kluczem jest bajt
-            int value = map.get(key); //wartością jest waga
-            Node node = new Node(key, value);
-            tempTree.add(new Tree(node));
-        }
-        tempTree = quickSort(tempTree);
-        System.out.println("good");
-
+        treeList = quickSort(treeList);
         //zbudować drzewo
+        Tree first = treeList.pop();
+        Tree second = treeList.pop();
+        Node node = new Node(first.node, second.node);
+        Tree newTree = new Tree(node, first, second);
+        int i = 0;
+        while(treeList.get(i).node.getWeight() < newTree.node.getWeight()) i++;
+        treeList.add(i, newTree);
+        System.out.println("good");
         //z drzewa w ciąg bitów
         //zapisać w postaci skompresowanej
     }
